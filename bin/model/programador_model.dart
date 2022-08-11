@@ -10,6 +10,25 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
       required super.nome,
       required super.peso});
 
+  late int c;
+  late int m;
+  void criarApp() {
+    if (acordado == true && sede == false && fome == false && sono == false) {
+      print("Criando app..");
+      c++;
+      m++;
+      if (c == 2) {
+        sede = true;
+        fome = true;
+      }
+      if (m == 4) {
+        sono = true;
+      }
+    } else {
+      print("Voçe não pode criar um app porque esta com fome,sede e cansado.");
+    }
+  }
+
   @override
   void acordar() {
     if (acordado == false) {
@@ -25,6 +44,9 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
     if (sede == true && acordado == true) {
       print("Bebendo agua.");
       sede = false;
+      if (acordado == true && sede == false && fome == false) {
+        c = 0;
+      }
     } else if (acordado == false) {
       print("Voçe esta dormindo.");
     } else {
@@ -37,6 +59,9 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
     if (fome == true && acordado == true) {
       print("Comendo.");
       fome = false;
+      if (acordado == true && sede == false && fome == false) {
+        c = 0;
+      }
     } else if (acordado == false) {
       print("Voçe esta dormindo.");
     } else {
@@ -50,6 +75,7 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
       print("Dormindo..");
       acordado = false;
       sono = false;
+      m = 0;
     } else {
       print("Voçe não esta com sono!");
     }
