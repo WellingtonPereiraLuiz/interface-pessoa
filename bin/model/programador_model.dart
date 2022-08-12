@@ -13,19 +13,24 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
   late int c;
   late int m;
   void criarApp() {
-    if (acordado == true && sede == false && fome == false && sono == false) {
-      print("Criando app..");
-      c++;
-      m++;
-      if (c == 2) {
-        sede = true;
-        fome = true;
+    if (barraDeEnergia >= 20) {
+      if (acordado == true && sede == false && fome == false && sono == false) {
+        print("Criando app..");
+        barraDeEnergia -= 20;
+        if (barraDeEnergia <= 40) {
+          sede = true;
+          fome = true;
+        }
+        if (barraDeEnergia <= 20) {
+          sono = true;
+        }
+      } else if (sede == true) {
+        print("Voçe esta com sede, se hidrate-se");
+      } else if (fome == true) {
+        print("Voçe esta com fome, vá comer alguma coisa.");
+      } else if (sono == true) {
+        print("Voçe esta com sono, durma ou beba um café.");
       }
-      if (m == 4) {
-        sono = true;
-      }
-    } else {
-      print("Voçe não pode criar um app porque esta com fome,sede e cansado.");
     }
   }
 
@@ -44,8 +49,8 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
     if (sede == true && acordado == true) {
       print("Bebendo agua.");
       sede = false;
-      if (acordado == true && sede == false && fome == false) {
-        c = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 10;
       }
     } else if (acordado == false) {
       print("Voçe esta dormindo.");
@@ -59,8 +64,8 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
     if (fome == true && acordado == true) {
       print("Comendo.");
       fome = false;
-      if (acordado == true && sede == false && fome == false) {
-        c = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 20;
       }
     } else if (acordado == false) {
       print("Voçe esta dormindo.");
@@ -75,7 +80,9 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
       print("Dormindo..");
       acordado = false;
       sono = false;
-      m = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 20;
+      }
     } else {
       print("Voçe não esta com sono!");
     }
@@ -86,6 +93,9 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
     if (sono == true) {
       print("Tomando cafezinho.");
       sono = false;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 30;
+      }
     } else {
       print("Voçe não esta cansado, mas merece um cafezinho.");
     }
@@ -102,4 +112,7 @@ class ProgramadorModel extends PessoaModel implements PessoaInterface {
 
   @override
   bool sono = true;
+
+  @override
+  double barraDeEnergia = 100;
 }

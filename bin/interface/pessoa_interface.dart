@@ -13,4 +13,6 @@ abstract class PessoaInterface {
   late bool sono;
   late bool fome;
   late bool sede;
+
+  late double barraDeEnergia;
 }

@@ -11,34 +11,47 @@ class GamerModel extends PessoaModel implements PessoaInterface {
     required super.peso,
   });
 
-  //barra de energia = a vida, toda vex que jogar vai exceder fome, sede e etc
+  @override
+  double barraDeEnergia = 100;
 
-  late int i;
-  late int k;
   void jogar() {
-    if (acordado == true && sede == false && fome == false && sono == false) {
-      print("Jogando lol");
-      i++;
-      k++;
-      if (i == 1) {
-        sede = true;
-        fome = true;
+    if (barraDeEnergia >= 20) {
+      if (acordado == true && sede == false && fome == false && sono == false) {
+        print("Jogando lol");
+        barraDeEnergia -= 20;
+        if (barraDeEnergia <= 60) {
+          sede = true;
+          fome = true;
+        }
+        if (barraDeEnergia <= 40) {
+          sono = true;
+        }
+      } else if (sede == true) {
+        print("Voçe esta com sede, se hidrate-se");
+      } else if (fome == true) {
+        print("Voçe esta com fome, vá comer alguma coisa.");
+      } else if (sono == true) {
+        print("Voçe esta com sono, durma ou beba um café.");
       }
-      if (k == 2) {
-        sono = true;
-      }
-    } else {
-      print("Voçe não pode jogar porque esta com fome,sede e cansado.");
     }
   }
+
+  @override
+  bool acordado = true;
+  @override
+  bool fome = false;
+  @override
+  bool sede = false;
+  @override
+  bool sono = false;
 
   @override
   void acordar() {
     if (acordado == false) {
       print("levantando..");
       acordado = true;
-      if (acordado == true && sede == false && fome == false) {
-        i = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 20;
       }
     } else {
       print("Voçe ja esta acordado.");
@@ -50,8 +63,8 @@ class GamerModel extends PessoaModel implements PessoaInterface {
     if (sede == true && acordado == true) {
       print("Bebendo agua.");
       sede = false;
-      if (acordado == true && sede == false && fome == false) {
-        i = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 10;
       }
     } else if (acordado == false) {
       print("Voçe esta dormindo.");
@@ -65,8 +78,8 @@ class GamerModel extends PessoaModel implements PessoaInterface {
     if (fome == true && acordado == true) {
       print("Comendo.");
       fome = false;
-      if (acordado == true && sede == false && fome == false) {
-        i = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 10;
       }
     } else if (acordado == false) {
       print("Voçe esta dormindo.");
@@ -81,7 +94,9 @@ class GamerModel extends PessoaModel implements PessoaInterface {
       print("Dormindo..");
       acordado = false;
       sono = false;
-      k = 0;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 20;
+      }
     } else {
       print("Voçe não esta com sono!");
     }
@@ -92,17 +107,11 @@ class GamerModel extends PessoaModel implements PessoaInterface {
     if (sono == true) {
       print("Tomando cafezinho.");
       sono = false;
+      if (barraDeEnergia < 100) {
+        barraDeEnergia + 30;
+      }
     } else {
       print("Voçe não esta cansado, mas merece um cafezinho.");
     }
   }
-
-  @override
-  bool acordado = true;
-  @override
-  bool fome = false;
-  @override
-  bool sede = true;
-  @override
-  bool sono = false;
 }
